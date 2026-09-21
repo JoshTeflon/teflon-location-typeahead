@@ -7,14 +7,13 @@ import { useLocationSearch, type LocationResult, type Mode } from "../hooks/useL
 
 const modes: Array<{ value: Mode; label: string }> = [
   { value: "country", label: "Country" },
-  { value: "city", label: "City" },
   { value: "postal", label: "Postal code" },
 ];
 
 export default function LocationSearch() {
   const [mode, setMode] = useState<Mode>("country");
   const [query, setQuery] = useState("");
-  const [countryCode, setCountryCode] = useState("us");
+  const [countryCode, setCountryCode] = useState("US");
   const [countryLabel, setCountryLabel] = useState("United States");
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [selection, setSelection] = useState<LocationResult | null>(null);
@@ -38,7 +37,7 @@ export default function LocationSearch() {
     if (mode === "country" && result.countryCode) {
       setCountryCode(result.countryCode);
       setCountryLabel(result.label);
-      setMode("city");
+      setMode("postal");
     }
   }
 
@@ -95,7 +94,7 @@ export default function LocationSearch() {
           countryLabel={countryLabel}
           mode={mode}
           onChange={(value) => { setQuery(value); setSelection(null); }}
-          onClearCountry={() => { setCountryCode("us"); setCountryLabel("United States"); }}
+          onClearCountry={() => { setCountryCode("US"); setCountryLabel("United States"); }}
           onKeyDown={handleKeyDown}
           value={query}
         />

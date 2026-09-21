@@ -14,7 +14,6 @@ type SearchInputProps = {
 
 const modeLabels: Record<Mode, string> = {
   country: "Country",
-  city: "City",
   postal: "Postal code",
 };
 

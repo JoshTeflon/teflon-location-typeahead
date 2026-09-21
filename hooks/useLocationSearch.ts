@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { buildUrl } from "@/lib/api";
 import { parseResults } from "@/lib/parsers";
 
-export type Mode = "country" | "city" | "postal";
+export type Mode = "country" | "postal";
 export type Status = "idle" | "loading" | "success" | "error";
 
 export type LocationResult = {

@@ -1,14 +1,13 @@
 import type { Mode } from "@/hooks/useLocationSearch";
 
-const COUNTRY_API = "https://restcountries.com/v3.1/name";
-const ZIPPOPOTAM_API = "https://api.zippopotam.us";
+const COUNTRIES_API = "https://countries.dev";
 
-export function buildUrl(query: string, mode: Mode, country = "us") {
+export function buildUrl(query: string, mode: Mode, country = "US") {
   const encodedQuery = encodeURIComponent(query.trim());
 
   if (mode === "country") {
-    return `${COUNTRY_API}/${encodedQuery}`;
+    return `${COUNTRIES_API}/name/${encodedQuery}`;
   }
 
-  return `${ZIPPOPOTAM_API}/${encodeURIComponent(country)}/${encodedQuery}`;
+  return `${COUNTRIES_API}/postal/${encodeURIComponent(country.toUpperCase())}/${encodedQuery}`;
 }

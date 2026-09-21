@@ -18,7 +18,7 @@ export default function Home() {
           </h1>
 
           <p className="mt-4 mb-1 text-sm leading-[1.55] text-muted">
-            Search by country, city, or postal code to discover what is available near you.
+            Search by country or postal code to discover what is available near you.
           </p>
         </header>
 

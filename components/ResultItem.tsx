@@ -1,4 +1,5 @@
 import type { LocationResult } from "../hooks/useLocationSearch";
+import Image from "next/image";
 
 type ResultItemProps = {
   result: LocationResult;
@@ -17,9 +18,19 @@ export function ResultItem({ result, highlighted, onSelect, onHover }: ResultIte
       onClick={onSelect}
       role="option"
     >
-      <span className="grid size-7 shrink-0 place-items-center rounded-full bg-lime-marker text-lg text-lime-dark" aria-hidden="true">
-        {result.flag ? "◉" : "⌖"}
-      </span>
+      {result.flag ? (
+        <Image
+          alt=""
+          className="size-7 shrink-0 rounded-full object-cover"
+          height={28}
+          src={result.flag}
+          width={28}
+        />
+      ) : (
+        <span className="grid size-7 shrink-0 place-items-center rounded-full bg-lime-marker text-lg text-lime-dark" aria-hidden="true">
+          ⌖
+        </span>
+      )}
 
       <span className="grid min-w-0 gap-1">
         <strong className="overflow-hidden text-xs text-ellipsis whitespace-nowrap">

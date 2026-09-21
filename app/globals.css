@@ -1,26 +1,85 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f3f1ec;
+  --foreground: #172115;
+  --lime: #8ee600;
+  --ink: #172115;
+  --muted: #73786d;
+  --line: #e3e6dd;
+  --brand-soft: #98a092;
+  --accent: #92c900;
+  --surface-soft: #fbfcfa;
+  --surface-muted: #f1f3ed;
+  --surface-panel: #f5f8ef;
+  --lime-ring: #effbdc;
+  --lime-soft: #dff8a9;
+  --lime-marker: #e9fac7;
+  --lime-dark: #7bbe00;
+  --context-background: #ebfbd0;
+  --context-foreground: #4b7111;
+  --icon-muted: #929b8a;
+  --placeholder: #a1a79d;
+  --text-subtle: #5d655a;
+  --text-soft: #757d70;
+  --text-faint: #858d80;
+  --text-panel: #a0ae8d;
+  --error: #b65343;
+  --selection-background: #fff9e8;
+  --selection-icon-background: #fff0bb;
+  --selection-icon-foreground: #c58a00;
+  --selection-label: #b48d38;
+  --selection-value: #a58e5a;
+  --selection-close: #b9a36d;
+  --input-shadow: 0 5px 15px rgba(45, 61, 33, .04);
+  --card-shadow: 0 22px 55px rgba(29, 47, 18, .08);
+  --results-shadow: 0 14px 28px rgba(38, 53, 27, .14);
+  --status-ring-shadow: 0 0 0 7px var(--lime-ring);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-ink: var(--ink);
+  --color-lime: var(--lime);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
+  --color-brand-soft: var(--brand-soft);
+  --color-accent: var(--accent);
+  --color-surface-soft: var(--surface-soft);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-panel: var(--surface-panel);
+  --color-lime-ring: var(--lime-ring);
+  --color-lime-soft: var(--lime-soft);
+  --color-lime-marker: var(--lime-marker);
+  --color-lime-dark: var(--lime-dark);
+  --color-context-background: var(--context-background);
+  --color-context-foreground: var(--context-foreground);
+  --color-icon-muted: var(--icon-muted);
+  --color-placeholder: var(--placeholder);
+  --color-text-subtle: var(--text-subtle);
+  --color-text-soft: var(--text-soft);
+  --color-text-faint: var(--text-faint);
+  --color-text-panel: var(--text-panel);
+  --color-error: var(--error);
+  --color-selection-background: var(--selection-background);
+  --color-selection-icon-background: var(--selection-icon-background);
+  --color-selection-icon-foreground: var(--selection-icon-foreground);
+  --color-selection-label: var(--selection-label);
+  --color-selection-value: var(--selection-value);
+  --color-selection-close: var(--selection-close);
+  --shadow-input: var(--input-shadow);
+  --shadow-card: var(--card-shadow);
+  --shadow-results: var(--results-shadow);
+  --shadow-status-ring: var(--status-ring-shadow);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
 }
+
+@keyframes spin { to { transform: rotate(360deg); } }

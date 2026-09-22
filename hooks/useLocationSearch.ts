@@ -60,6 +60,7 @@ export function useLocationSearch(
       })
       .then((response) => {
         if (!response) return null;
+        if (response.status === 404) return [];
         if (!response.ok) throw new Error("The location service returned an error.");
         return response.json();
       })

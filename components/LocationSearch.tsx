@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import Image from "next/image";
 import { ResultsList } from "./ResultsList";
 import { SearchInput } from "./SearchInput";
 import { useLocationSearch, type LocationResult, type Mode } from "../hooks/useLocationSearch";
@@ -15,6 +16,8 @@ export default function LocationSearch() {
   const [query, setQuery] = useState("");
   const [countryCode, setCountryCode] = useState("US");
   const [countryLabel, setCountryLabel] = useState("United States");
+  const [countryFlagEmoji, setCountryFlagEmoji] = useState("");
+  const [countryFlagUrl, setCountryFlagUrl] = useState("");
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [ghostText, setGhostText] = useState("");
   const [selection, setSelection] = useState<LocationResult | null>(null);
@@ -52,6 +55,8 @@ export default function LocationSearch() {
     if (mode === "country" && result.countryCode) {
       setCountryCode(result.countryCode);
       setCountryLabel(result.label);
+      setCountryFlagEmoji(result.flagEmoji ?? "");
+      setCountryFlagUrl(result.flag ?? "");
       setSelection(null);
       setMode("city");
     }
@@ -125,7 +130,7 @@ export default function LocationSearch() {
           activeDescendant={activeDescendant}
           mode={mode}
           onChange={(value) => { setQuery(value); setGhostText(""); setSelection(null); }}
-          onClearCountry={() => { setCountryCode("US"); setCountryLabel("United States"); }}
+          onClearCountry={() => { setCountryCode("US"); setCountryLabel("United States"); setCountryFlagEmoji(""); setCountryFlagUrl(""); }}
           onKeyDown={handleKeyDown}
           value={query}
         />
@@ -143,9 +148,23 @@ export default function LocationSearch() {
 
       {selection ? (
         <div className="mt-5 rounded-[10px] bg-selection-background p-5">
-          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-selection-icon-background text-xl text-selection-icon-foreground" aria-hidden="true">
-            ⌖
-          </span>
+          {countryFlagEmoji ? (
+            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-selection-icon-background text-2xl" aria-hidden="true">
+              {countryFlagEmoji}
+            </span>
+          ) : countryFlagUrl ? (
+            <Image
+              alt=""
+              className="size-10 shrink-0 rounded-lg object-cover"
+              height={40}
+              src={countryFlagUrl}
+              width={40}
+            />
+          ) : (
+            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-selection-icon-background text-xl text-selection-icon-foreground" aria-hidden="true">
+              ⌖
+            </span>
+          )}
 
           <div className="mt-3 grid gap-1">
             <small className="text-[0.625rem] uppercase tracking-[.08em] text-selection-label">

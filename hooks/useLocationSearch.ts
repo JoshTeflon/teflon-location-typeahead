@@ -10,6 +10,7 @@ export type Status = "idle" | "loading" | "success" | "error";
 export type LocationResult = {
   label: string;
   sublabel?: string;
+  flagEmoji?: string;
   flag?: string;
   countryCode?: string;
   coordinates?: string;

@@ -1,6 +1,7 @@
 import type { Mode, LocationResult } from "@/hooks/useLocationSearch";
 
 type CountryDevResult = {
+  flag?: string;
   name?: string;
   region?: string;
   alpha2Code?: string;
@@ -29,6 +30,7 @@ export function parseResults(data: unknown, mode: Mode): LocationResult[] {
       .map((country) => ({
         label: country.name ?? "Unknown country",
         sublabel: country.region || "Country",
+        flagEmoji: country.flag,
         flag: country.flags?.svg,
         countryCode: country.alpha2Code?.toUpperCase(),
       }));

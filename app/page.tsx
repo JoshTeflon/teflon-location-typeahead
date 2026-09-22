@@ -14,7 +14,7 @@ export default function Home() {
           </h1>
 
           <p className="mt-4 mb-1 text-sm leading-[1.55] text-muted">
-            Search by country, then find a city to explore its details.
+            Start with your country, then find a city to explore what makes it yours.
           </p>
         </header>
 

@@ -29,6 +29,11 @@ export function SearchInput({
   onKeyDown,
   onClearCountry,
 }: SearchInputProps) {
+  const normalizedValue = value.trim().toLowerCase();
+  const ghostSuffix = ghostText.toLowerCase().startsWith(normalizedValue)
+    ? ghostText.slice(value.trim().length)
+    : "";
+
   return (
     <div className="flex min-h-14 items-center gap-2.5 rounded-[10px] border border-line bg-surface-soft px-4 shadow-input">
       <span className="-rotate-20 text-[26px] leading-none text-icon-muted" aria-hidden="true">
@@ -36,14 +41,12 @@ export function SearchInput({
       </span>
 
       <div className="relative flex h-5 min-w-0 flex-1 items-center">
-        <input
+        <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-1/2 h-5 w-full -translate-y-1/2 appearance-none border-0 bg-transparent p-0 font-sans text-sm font-normal leading-5 tracking-normal text-ghost outline-0"
-          readOnly
-          tabIndex={-1}
-          type="text"
-          value={ghostText}
-        />
+          className="pointer-events-none absolute inset-x-0 top-1/2 h-5 -translate-y-1/2 overflow-hidden whitespace-pre font-sans text-sm font-normal leading-5 tracking-normal"
+        >
+          <span className="invisible">{value}</span><span className="text-ghost">{ghostSuffix}</span>
+        </div>
         <input
           aria-activedescendant={activeDescendant}
           aria-autocomplete="both"

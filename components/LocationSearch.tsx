@@ -7,7 +7,7 @@ import { useLocationSearch, type LocationResult, type Mode } from "../hooks/useL
 
 const modes: Array<{ value: Mode; label: string }> = [
   { value: "country", label: "Country" },
-  { value: "postal", label: "Postal code" },
+  { value: "city", label: "City" },
 ];
 
 export default function LocationSearch() {
@@ -37,7 +37,8 @@ export default function LocationSearch() {
     if (mode === "country" && result.countryCode) {
       setCountryCode(result.countryCode);
       setCountryLabel(result.label);
-      setMode("postal");
+      setSelection(null);
+      setMode("city");
     }
   }
 
@@ -111,14 +112,14 @@ export default function LocationSearch() {
       </div>
 
       {selection ? (
-        <div className="mt-5 flex items-center gap-3 rounded-[10px] bg-selection-background p-3.5">
+        <div className="mt-5 rounded-[10px] bg-selection-background p-5">
           <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-selection-icon-background text-xl text-selection-icon-foreground" aria-hidden="true">
             ⌖
           </span>
 
-          <div className="grid min-w-0 flex-1 gap-1">
+          <div className="mt-3 grid gap-1">
             <small className="text-[0.625rem] uppercase tracking-[.08em] text-selection-label">
-              Selected location
+              City details
             </small>
 
             <strong className="text-xs text-ink">
@@ -126,17 +127,31 @@ export default function LocationSearch() {
             </strong>
 
             <span className="text-[0.625rem] text-selection-value">
-              {selection.sublabel || selection.postalCode || countryLabel}
+              {countryLabel} · {selection.countryCode || "Unknown country"}
             </span>
           </div>
 
-          <button
-            className="border-0 bg-transparent text-xl text-selection-close"
-            aria-label="Clear selected location"
-            onClick={() => setSelection(null)}
-            type="button"
-          >
-            ×
+          <dl className="mt-5 grid grid-cols-2 gap-4 border-t border-selection-label/20 pt-4 text-xs sm:grid-cols-4">
+            <div>
+              <dt className="text-text-faint">Coordinates</dt>
+              <dd className="mt-1 text-ink">{selection.coordinates || "Unavailable"}</dd>
+            </div>
+            <div>
+              <dt className="text-text-faint">Population</dt>
+              <dd className="mt-1 text-ink">{selection.population?.toLocaleString() || "Unavailable"}</dd>
+            </div>
+            <div>
+              <dt className="text-text-faint">Timezone</dt>
+              <dd className="mt-1 text-ink">{selection.timezone || "Unavailable"}</dd>
+            </div>
+            <div>
+              <dt className="text-text-faint">GeoNames ID</dt>
+              <dd className="mt-1 text-ink">{selection.geonameId || "Unavailable"}</dd>
+            </div>
+          </dl>
+
+          <button className="mt-4 border-0 bg-transparent p-0 text-xs text-selection-close underline underline-offset-4" aria-label="Clear selected city" onClick={() => setSelection(null)} type="button">
+            Clear selection
           </button>
         </div>
       ) : (

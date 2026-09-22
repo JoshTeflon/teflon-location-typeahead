@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { buildUrl } from "@/lib/api";
 import { parseResults } from "@/lib/parsers";
 
-export type Mode = "country" | "postal";
+export type Mode = "country" | "city";
 export type Status = "idle" | "loading" | "success" | "error";
 
 export type LocationResult = {
@@ -12,8 +12,11 @@ export type LocationResult = {
   sublabel?: string;
   flag?: string;
   countryCode?: string;
-  postalCode?: string;
   coordinates?: string;
+  geonameId?: number;
+  population?: number;
+  timezone?: string;
+  featureCode?: string;
 };
 
 export function useDebounce<T>(value: T, delay: number): T {
@@ -32,7 +35,7 @@ export function useLocationSearch(
   mode: Mode,
   countryCode: string,
 ) {
-  const debouncedQuery = useDebounce(query, 300);
+  const debouncedQuery = useDebounce(query, 400);
   const [results, setResults] = useState<LocationResult[]>([]);
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");

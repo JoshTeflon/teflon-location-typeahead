@@ -9,5 +9,10 @@ export function buildUrl(query: string, mode: Mode, country = "US") {
     return `${COUNTRIES_API}/name/${encodedQuery}`;
   }
 
-  return `${COUNTRIES_API}/postal/${encodeURIComponent(country.toUpperCase())}/${encodedQuery}`;
+  const params = new URLSearchParams({
+    q: query.trim(),
+    country: country.toUpperCase(),
+    limit: "20",
+  });
+  return `${COUNTRIES_API}/cities?${params.toString()}`;
 }

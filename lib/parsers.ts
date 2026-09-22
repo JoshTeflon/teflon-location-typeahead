@@ -7,14 +7,17 @@ type CountryDevResult = {
   flags?: { svg?: string };
 };
 
-type PostalApiResult = {
+type CityApiResult = {
+  geonameId?: number;
+  name?: string;
+  asciiName?: string;
   countryCode?: string;
-  postalCode?: string;
-  placeName?: string;
-  admin1?: { name?: string; code?: string };
-  admin2?: { name?: string; code?: string };
+  admin1Code?: string;
   latitude?: number;
   longitude?: number;
+  population?: number;
+  timezone?: string;
+  featureCode?: string;
 };
 
 export function parseResults(data: unknown, mode: Mode): LocationResult[] {
@@ -33,13 +36,19 @@ export function parseResults(data: unknown, mode: Mode): LocationResult[] {
 
   if (!Array.isArray(data)) return [];
 
-  return (data as PostalApiResult[]).map((place) => ({
-    label: place.placeName ?? "Unknown place",
-    sublabel: [place.admin1?.name, place.admin2?.name].filter(Boolean).join(" · "),
-    postalCode: place.postalCode,
-    coordinates:
-      place.latitude !== undefined && place.longitude !== undefined
-        ? `${place.latitude}, ${place.longitude}`
-        : undefined,
-  }));
+  return (data as CityApiResult[])
+    .filter((city) => city.name)
+    .map((city) => ({
+      label: city.name ?? "Unknown city",
+      sublabel: city.countryCode || "City",
+      countryCode: city.countryCode,
+      coordinates:
+        city.latitude !== undefined && city.longitude !== undefined
+          ? `${city.latitude}, ${city.longitude}`
+          : undefined,
+      geonameId: city.geonameId,
+      population: city.population,
+      timezone: city.timezone,
+      featureCode: city.featureCode,
+    }));
 }

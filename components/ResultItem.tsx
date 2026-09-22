@@ -40,7 +40,6 @@ export function ResultItem({ result, highlighted, onSelect, onHover }: ResultIte
         {result.sublabel ? <small className="text-[0.625rem] text-text-faint">{result.sublabel}</small> : null}
       </span>
 
-      {result.postalCode ? <span className="ml-auto text-[0.625rem] text-text-faint">{result.postalCode}</span> : null}
     </li>
   );
 }

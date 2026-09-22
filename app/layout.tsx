@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Teflon Location Finder",
-  description: "Find your country or postal code.",
+  description: "Find a country and explore city details.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

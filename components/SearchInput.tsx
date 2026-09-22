@@ -14,7 +14,7 @@ type SearchInputProps = {
 
 const modeLabels: Record<Mode, string> = {
   country: "Country",
-  postal: "Postal code",
+  city: "City",
 };
 
 export function SearchInput({
@@ -36,7 +36,7 @@ export function SearchInput({
         autoComplete="off"
         onChange={(event) => onChange(event.target.value)}
         onKeyDown={onKeyDown}
-        placeholder={mode === "country" ? "Search countries" : `Search ${modeLabels[mode].toLowerCase()}`}
+        placeholder={mode === "country" ? "Search countries" : `Search cities in ${countryLabel}`}
         type="search"
         value={value}
         className="min-w-0 flex-1 border-0 bg-transparent text-sm text-ink outline-0 placeholder:text-placeholder"

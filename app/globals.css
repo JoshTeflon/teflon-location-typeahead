@@ -7,7 +7,6 @@
   --ink: #172115;
   --muted: #73786d;
   --line: #e3e6dd;
-  --brand-soft: #98a092;
   --accent: #92c900;
   --surface-soft: #fbfcfa;
   --surface-muted: #f1f3ed;
@@ -44,7 +43,6 @@
   --color-lime: var(--lime);
   --color-line: var(--line);
   --color-muted: var(--muted);
-  --color-brand-soft: var(--brand-soft);
   --color-accent: var(--accent);
   --color-surface-soft: var(--surface-soft);
   --color-surface-muted: var(--surface-muted);

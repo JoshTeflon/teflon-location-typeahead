@@ -19,6 +19,7 @@
   --context-foreground: #4b7111;
   --icon-muted: #929b8a;
   --placeholder: #a1a79d;
+  --ghost: #9ca3af;
   --text-subtle: #5d655a;
   --text-soft: #757d70;
   --text-faint: #858d80;
@@ -55,6 +56,7 @@
   --color-context-foreground: var(--context-foreground);
   --color-icon-muted: var(--icon-muted);
   --color-placeholder: var(--placeholder);
+  --color-ghost: var(--ghost);
   --color-text-subtle: var(--text-subtle);
   --color-text-soft: var(--text-soft);
   --color-text-faint: var(--text-faint);

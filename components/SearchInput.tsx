@@ -6,6 +6,8 @@ import type { Mode } from "../hooks/useLocationSearch";
 type SearchInputProps = {
   mode: Mode;
   value: string;
+  ghostText: string;
+  activeDescendant?: string;
   countryLabel?: string;
   onChange: (value: string) => void;
   onKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
@@ -20,6 +22,8 @@ const modeLabels: Record<Mode, string> = {
 export function SearchInput({
   mode,
   value,
+  ghostText,
+  activeDescendant,
   countryLabel,
   onChange,
   onKeyDown,
@@ -31,16 +35,29 @@ export function SearchInput({
         ⌕
       </span>
 
-      <input
-        aria-label={`Search by ${modeLabels[mode].toLowerCase()}`}
-        autoComplete="off"
-        onChange={(event) => onChange(event.target.value)}
-        onKeyDown={onKeyDown}
-        placeholder={mode === "country" ? "Search countries" : `Search cities in ${countryLabel}`}
-        type="search"
-        value={value}
-        className="min-w-0 flex-1 border-0 bg-transparent text-sm text-ink outline-0 placeholder:text-placeholder"
-      />
+      <div className="relative flex h-5 min-w-0 flex-1 items-center">
+        <input
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-1/2 h-5 w-full -translate-y-1/2 appearance-none border-0 bg-transparent p-0 font-sans text-sm font-normal leading-5 tracking-normal text-ghost outline-0"
+          readOnly
+          tabIndex={-1}
+          type="text"
+          value={ghostText}
+        />
+        <input
+          aria-activedescendant={activeDescendant}
+          aria-autocomplete="both"
+          aria-controls="location-search-results"
+          aria-label={`Search by ${modeLabels[mode].toLowerCase()}`}
+          autoComplete="off"
+          className="relative z-10 h-5 w-full appearance-none border-0 bg-transparent p-0 font-sans text-sm font-normal leading-5 tracking-normal text-ink outline-0 placeholder:text-placeholder"
+          onChange={(event) => onChange(event.target.value)}
+          onKeyDown={onKeyDown}
+          placeholder={mode === "country" ? "Search countries" : `Search cities in ${countryLabel}`}
+          type="search"
+          value={value}
+        />
+      </div>
 
       {countryLabel && mode !== "country" ? (
         <button

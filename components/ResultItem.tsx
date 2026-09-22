@@ -13,6 +13,7 @@ export function ResultItem({ result, highlighted, onSelect, onHover }: ResultIte
     <li
       aria-selected={highlighted}
       className={`flex min-h-14 items-center gap-2.5 rounded-[7px] p-2.5 text-ink hover:bg-lime-ring ${highlighted ? "bg-lime-ring" : ""}`}
+      id={`location-result-${result.label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
       onMouseEnter={onHover}
       onMouseDown={(event) => event.preventDefault()}
       onClick={onSelect}

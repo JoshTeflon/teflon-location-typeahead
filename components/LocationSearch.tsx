@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { ResultsList } from "./ResultsList";
 import { SearchInput } from "./SearchInput";
 import { useLocationSearch, type LocationResult, type Mode } from "../hooks/useLocationSearch";
@@ -16,15 +16,29 @@ export default function LocationSearch() {
   const [countryCode, setCountryCode] = useState("US");
   const [countryLabel, setCountryLabel] = useState("United States");
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [ghostText, setGhostText] = useState("");
   const [selection, setSelection] = useState<LocationResult | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { results, status, errorMessage } = useLocationSearch(query, mode, countryCode);
 
   const visibleHighlightedIndex = results.length && highlightedIndex < 0 ? 0 : highlightedIndex;
+  const activeDescendant = visibleHighlightedIndex >= 0 && results[visibleHighlightedIndex]
+    ? `location-result-${results[visibleHighlightedIndex].label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`
+    : undefined;
+
+  useEffect(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    const suggestion = normalizedQuery
+      ? results.find((result) => result.label.toLowerCase().startsWith(normalizedQuery))
+      : undefined;
+    const timer = setTimeout(() => setGhostText(suggestion?.label ?? ""), 0);
+    return () => clearTimeout(timer);
+  }, [query, results]);
 
   function changeMode(nextMode: Mode) {
     setMode(nextMode);
     setQuery("");
+    setGhostText("");
     setSelection(null);
     setHighlightedIndex(-1);
     inputRef.current?.focus();
@@ -33,6 +47,7 @@ export default function LocationSearch() {
   function selectResult(result: LocationResult) {
     setSelection(result);
     setQuery("");
+    setGhostText("");
     setHighlightedIndex(-1);
     if (mode === "country" && result.countryCode) {
       setCountryCode(result.countryCode);
@@ -43,6 +58,15 @@ export default function LocationSearch() {
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    const isAtEnd = event.currentTarget.selectionStart === query.length;
+
+    if ((event.key === "Tab" || event.key === "ArrowRight") && isAtEnd && ghostText) {
+      event.preventDefault();
+      setQuery(ghostText);
+      setGhostText("");
+      return;
+    }
+
     if (event.key === "ArrowDown") {
       event.preventDefault();
       setHighlightedIndex((index) => results.length ? (index + 1) % results.length : -1);
@@ -56,8 +80,12 @@ export default function LocationSearch() {
       selectResult(results[visibleHighlightedIndex]);
     }
     if (event.key === "Escape") {
-      setQuery("");
-      setHighlightedIndex(-1);
+      if (query.trim() && status !== "idle") {
+        setQuery("");
+        setHighlightedIndex(-1);
+      } else if (ghostText) {
+        setGhostText("");
+      }
     }
   }
 
@@ -72,7 +100,7 @@ export default function LocationSearch() {
       </div>
 
       <p className="mb-8 mt-4 text-xs leading-normal text-muted">
-        Confirm your address to discover what is available near you.
+        Start with your country, then choose a city to see its details.
       </p>
 
       <div className="mb-4 flex gap-1.5 overflow-x-auto" role="tablist" aria-label="Search mode">
@@ -93,8 +121,10 @@ export default function LocationSearch() {
       <div className="relative">
         <SearchInput
           countryLabel={countryLabel}
+          ghostText={ghostText}
+          activeDescendant={activeDescendant}
           mode={mode}
-          onChange={(value) => { setQuery(value); setSelection(null); }}
+          onChange={(value) => { setQuery(value); setGhostText(""); setSelection(null); }}
           onClearCountry={() => { setCountryCode("US"); setCountryLabel("United States"); }}
           onKeyDown={handleKeyDown}
           value={query}
@@ -157,14 +187,14 @@ export default function LocationSearch() {
       ) : (
         <div
           className="mt-6 grid min-h-48 place-items-center gap-2 rounded-[14px] bg-surface-panel text-xs tracking-[.04em] text-text-panel"
-          aria-label="Illustration placeholder"
+          aria-label="Select a city and see"
           role="img"
         >
           <span className="grid h-18 w-18 rotate-[-14deg] place-items-center rounded-[46%_54%_44%_56%] bg-lime-soft text-5xl text-lime-dark" aria-hidden="true">
             ⌖
           </span>
 
-          <span>Illustration placeholder</span>
+          <span>Select a city and see</span>
         </div>
       )}
     </section>

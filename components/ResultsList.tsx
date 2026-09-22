@@ -40,7 +40,7 @@ export function ResultsList({
       ) : null}
 
       {status === "success" && results.length > 0 ? (
-        <ul className="m-0 max-h-80 list-none overflow-y-auto p-2.5" aria-label="Location results" role="listbox">
+        <ul className="m-0 max-h-80 list-none overflow-y-auto p-2.5" id="location-search-results" aria-label="Location results" role="listbox">
           {results.map((result, index) => (
             <ResultItem
               highlighted={index === highlightedIndex}
